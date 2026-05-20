@@ -6,15 +6,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 import os
 
-# --- 1. CẤU HÌNH GIAO DIỆN APP ---
 st.set_page_config(
-    page_title="AI GPA Predictor Pro",
+    page_title="DỰ ĐOÁN GPA TMT",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS: TAG XANH LÁ MẠ VÀ NÚT CHẠY MÔ HÌNH TRẢI ĐẦY ---
 st.markdown("""
     <style>
     .main-title {
@@ -22,33 +20,26 @@ st.markdown("""
         font-weight: 700;
         margin-bottom: 5px;
     }
-    
     .sub-title {
         font-size: 1.1rem;
         margin-bottom: 25px;
     }
-
-    /* Khung bao ngoài để căn giữa tag */
     .section-header-center {
         text-align: center; 
         margin-bottom: 25px;
         width: 100%;
     }
-
-    /* Tag bo tròn đặc màu xanh lá tươi (giống màu dấu tick success) */
     .custom-green-tag {
         display: inline-block;
-        background-color: #22C55E !important; /* Màu xanh lá tươi chuẩn st.success */
-        color: #FFFFFF !important;            /* Chữ trắng nét căng */
-        padding: 8px 24px;                    /* Độ rộng vừa vặn, gọn gàng */
-        border-radius: 30px;                  /* Bo tròn hoàn toàn giống nút chạy mô hình */
+        background-color: #22C55E !important;
+        color: #FFFFFF !important;
+        padding: 8px 24px;
+        border-radius: 30px;
         font-weight: 600;
         font-size: 0.95rem;
-        box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3); /* Đổ bóng nhẹ cho có chiều sâu */
-        border: none !important;              /* Không có viền ngoài */
+        box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+        border: none !important;
     }
-
-   /* ÉP NÚT BẤM PRIMARY ĐẦY 100% CHIỀU NGANG VÀ BO TRÒN (ĐÃ SỬA LỖI LỆCH TRÁI) */
     div.stButton {
         width: 100% !important;
     }
@@ -57,27 +48,22 @@ st.markdown("""
         padding: 12px 0px !important;
         font-size: 1.05rem !important;
         font-weight: 600 !important;
-        border-radius: 30px !important; /* Bo tròn mượt mà */
+        border-radius: 30px !important;
         border: none !important;
     }
-
-    /* Các nhãn slider/pills tự động theo Light/Dark theme */
     div.stSlider label, div.stPills label, div.stNumberInput label {
         font-weight: 500;
     }
     </style>
 """, unsafe_allow_html=True)
 
-
-# --- 2. XỬ LÝ DỮ LIỆU & HUẤN LUYỆN MÔ HÌNH ---
 @st.cache_resource
 def load_and_train_model():
     file_path = 'du_lieu_gpa_sinh_vien.csv'
 
-    # Tự tạo dữ liệu nếu không tìm thấy file CSV
     if os.path.exists(file_path):
         df = pd.read_csv(file_path)
-        data_source = "Dữ liệu thực tế (CSV)"
+        data_source = "Dữ liệu thực tế được thu thập bởi các sinh viên UEH"
     else:
         np.random.seed(42)
         n = 500
@@ -92,7 +78,6 @@ def load_and_train_model():
             'Social_Media_Time_Ngay': np.random.normal(3, 2, n).clip(0, 8),
         })
         
-        # Thiết lập công thức giả lập GPA có logic (Thang 4.0)
         gpa_simulated = (
             1.5
             + (df['So_Gio_Hoc_Tuan'] * 0.02)
@@ -102,11 +87,10 @@ def load_and_train_model():
             + np.random.normal(0, 0.2, n)
         )
         df['GPA'] = gpa_simulated.clip(1.0, 4.0)
-        data_source = "Dữ liệu Mô phỏng (Mock Data tự động)"
+        data_source = "Dữ liệu Mô phỏng"
 
     df_clean = df.copy().dropna()
 
-    # Chuyển đổi nhãn dán (Label Encoding)
     mapping_dict = {'Yes': 1, 'No': 0}
     if 'Part_Time_Job' in df_clean.columns:
         df_clean['Part_Time_Job'] = df_clean['Part_Time_Job'].map(mapping_dict)
@@ -118,12 +102,10 @@ def load_and_train_model():
     X = df_clean.drop('GPA', axis=1)
     y = df_clean['GPA']
 
-    # Train model
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     model = RandomForestRegressor(n_estimators=150, max_depth=10, random_state=42)
     model.fit(X_train, y_train)
 
-    # Đánh giá tầm quan trọng của Features
     feature_names = {
         'So_Gio_Hoc_Tuan': 'Số giờ tự học / tuần',
         'So_Mon_Dang_Hoc': 'Khối lượng môn học',
@@ -143,10 +125,8 @@ def load_and_train_model():
 
     return model, importance_df, len(df_clean), data_source
 
-# Khởi chạy hàm lấy model
 ai_model, importance_df, data_size, source_type = load_and_train_model()
 
-# --- 3. SIDEBAR (THANH ĐIỀU HƯỚNG BÊN TRÁI) ---
 with st.sidebar:
     st.markdown("<h2 style='text-align: center;'>⚙️ HỆ THỐNG AI</h2>", unsafe_allow_html=True)
     st.image("https://cdn-icons-png.flaticon.com/512/3112/3112946.png", use_container_width=True)
@@ -154,35 +134,30 @@ with st.sidebar:
     st.markdown("### 📊 Thông tin dữ liệu")
     
     st.info(f"📁 **Nguồn:**\n{source_type}")
-    st.success(f"🤖 **Trạng thái:**\nĐã huấn luyện trên **{data_size}** mẫu khảo sát.")
+    st.success(f"🤖 **Trạng thái:**\nĐã tham khảo trên **{data_size}** mẫu khảo sát.")
     
     st.markdown("---")
-    st.caption("⚡ Thiết kế tối ưu cho Nghiên cứu khoa học sinh viên © 2026")
+    st.caption("⚡ Thiết kế nhằm mục đích áp dụng kiến thức đã học © 2026")
 
-# --- 4. GIAO DIỆN CHÍNH (MAIN WORKSPACE) ---
-st.markdown("<div class='main-title'>🎯 Trợ Lý AI: Dự Đoán & Tối Ưu GPA</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>🎯 Dự đoán GPA theo các thói quen học tập </div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-title'>Cá nhân hóa lộ trình học tập của bạn bằng thuật toán <b>Random Forest Regressor</b>. Nhập thói quen hiện tại để nhận chẩn đoán từ AI.</div>", unsafe_allow_html=True)
 
-# Chia thành các Tabs
 tab_predict, tab_analytics, tab_research = st.tabs([
-    "🔮 Bài Test Khảo Sát",
-    "📈 Báo Cáo Yếu Tố Ảnh Hưởng",
-    "💡 Góc Nhìn Học Thuật & NCKH"
+    "🔮 Bài Khảo Sát",
+    "📈 Yếu Tố Ảnh Hưởng",
+    "💡 Tài liệu"
 ])
 
-# --- TAB 1: DỰ ĐOÁN ĐIỂM SỐ ---
 with tab_predict:
-    st.markdown("### 📝 Bảng Khảo Sát Hành Vi Thường Nhật")
-    st.write("Vui lòng kéo các thanh trượt và chọn câu trả lời đúng nhất với tình trạng thực tế của ông bạn:")
+    st.markdown("### 📝 Bảng Khảo Sát Hành Vi Học Tập")
+    st.write("Vui lòng kéo các thanh trượt và chọn câu trả lời đúng nhất với tình trạng thực tế của bạn:")
     
-    # Chia cụm input thành 2 cột chính cho gọn gàng
     col1, col2 = st.columns(2, gap="large")
 
     with col1:
-        # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 1
         st.markdown("""
             <div class='section-header-center'>
-                <div class='custom-green-tag'>📚 Khối Học Thuật & Trên Lớp</div>
+                <div class='custom-green-tag'>📚 Về học tập và chuyên cần</div>
             </div>
         """, unsafe_allow_html=True)
         
@@ -192,10 +167,9 @@ with tab_predict:
         hoc_nhom_input = st.pills("👥 Hình thức học tập yêu thích của bạn:", ["Tự học", "Học nhóm"], default="Tự học")
 
     with col2:
-        # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 2
         st.markdown("""
             <div class='section-header-center'>
-                <div class='custom-green-tag'>🍕 Khối Đời Sống & Sinh Hoạt</div>
+                <div class='custom-green-tag'>🍕 Về sinh hoạt và giải trí</div>
             </div>
         """, unsafe_allow_html=True)
         
@@ -204,19 +178,16 @@ with tab_predict:
         part_time_input = st.pills("💼 Bạn có đang đi làm thêm không?", ["Không", "Có"], default="Không")
         clb_input = st.pills("⚽ Bạn có tham gia CLB / Đội nhóm nào không?", ["Không", "Có"], default="Không")
 
-    # Mapping dữ liệu để đưa vào model
     part_time = 1 if part_time_input == "Có" else 0
     clb = 1 if clb_input == "Có" else 0
     hoc_nhom = 1 if hoc_nhom_input == "Học nhóm" else 0
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # NÚT BẤM CHẠY MÔ HÌNH TRẢI ĐẦY 100% CHIỀU NGANG MÀN HÌNH
     btn_col1, btn_col2, btn_col3 = st.columns([1, 2, 1])
 
     with btn_col2:
-        # Bật use_container_width=True để nút giãn đầy cái cột ở giữa này
-        chay_mo_hinh = st.button("🚀 CHẠY MÔ HÌNH & CHUẨN ĐOÁN KẾT QUẢ", type="primary", use_container_width=True)
+        chay_mo_hinh = st.button("🚀 NHẤN ĐỂ NHẬP KẾT QUẢ DỰ ĐOÁN", type="primary", use_container_width=True)
 
     if chay_mo_hinh:
         input_array = np.array([[gio_hoc, so_mon, part_time, gio_ngu, clb, attendance, hoc_nhom, social_media]])
@@ -225,7 +196,6 @@ with tab_predict:
         st.markdown("---")
         st.markdown("### 🌟 Kết Quả Đánh Giá Từ Hệ Thống AI")
         
-        # Tạo Layout hiển thị kết quả bắt mắt
         res_col1, res_col2 = st.columns([1, 2], gap="medium")
         
         with res_col1:
@@ -241,12 +211,11 @@ with tab_predict:
             else:
                 st.error("🚨 **Báo động đỏ!** Phong cách học tập này cực kỳ nguy hiểm, nguy cơ rớt môn hoặc cảnh cáo học vụ rất cao. Cần siết chặt lại kỷ luật bản thân, đi học đầy đủ and tăng giờ tự học ngay!")
 
-# --- TAB 2: BIỂU ĐỒ TRỌNG SỐ ---
+# TAB 2:
 with tab_analytics:
     st.markdown("### 📊 Trọng Số Tác Động Của Các Thói Quen Lên GPA")
     st.write("Biểu đồ này bóc tách thuật toán bên trong của mô hình Random Forest, cho thấy yếu tố nào thực sự quyết định đến điểm số của sinh viên.")
 
-    # Biểu đồ Plotly sang xịn mịn hơn
     fig = px.bar(
         importance_df,
         x='Mức độ đóng góp (%)',
@@ -267,17 +236,17 @@ with tab_analytics:
 
     st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander("🔍 Xem bảng dữ liệu chi tiết (Phục vụ trích dẫn số liệu)"):
+    with st.expander("🔍 Xem bảng dữ liệu chi tiết"):
         st.dataframe(
             importance_df.sort_values(by='Mức độ đóng góp (%)', ascending=False)
             .style.background_gradient(cmap='Blues'), 
             use_container_width=True
         )
 
-# --- TAB 3: TƯ LIỆU NGHIÊN CỨU ---
+# TAB 3:
 with tab_research:
     st.markdown("### 💡 Tài Liệu Hỗ Trợ Viết Báo Cáo Khoa Học (NCKH)")
-    st.write("Nếu ông bạn đang dùng ứng dụng này để làm phôi đề tài nghiên cứu, đây là các đoạn văn mẫu học thuật hỗ trợ viết phần Thảo luận (Discussion) & Phương pháp (Methodology):")
+    st.write("Nếu bạn đang dùng ứng dụng này để làm phôi đề tài nghiên cứu, đây là các đoạn văn mẫu học thuật hỗ trợ viết phần Thảo luận (Discussion) & Phương pháp (Methodology):")
 
     st.markdown("""
     > 📌 **Về Thuật Toán (Algorithm Justification):** *Trong nghiên cứu Khai phá Dữ liệu Giáo dục (Educational Data Mining), mô hình Random Forest Regressor được lựa chọn nhờ khả năng tối ưu trong việc xử lý các mối quan hệ phi tuyến tính phức tạp (ví dụ: tác động của giấc ngủ tuân theo hàm phi tuyến – ngủ quá ít hay quá nhiều đều kéo giảm kết quả học tập). Thuật toán này hạn chế tối đa hiện tượng quá khớp (overfitting) thông qua cơ chế phân tách ngẫu nhiên các cây quyết định.*

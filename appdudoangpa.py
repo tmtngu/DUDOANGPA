@@ -14,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS: TIÊU ĐỀ DẠNG NÚT OUTLINE & CÂN GIỮA ---
+# --- TÙY CHỈNH CSS: TIÊU ĐỀ DẠNG TAG BO TRÒN MÀU XANH LÁ TƯƠI CÂN GIỮA ---
 st.markdown("""
     <style>
     .main-title {
@@ -28,25 +28,27 @@ st.markdown("""
         margin-bottom: 25px;
     }
 
-    /* ĐÃ SỬA: Tiêu đề khối dạng nút Outline xanh lá mạ */
-    .section-header-container {
-        text-align: center; /* Căn giữa toàn bộ cụm tiêu đề trong cột */
-        margin-bottom: 20px;
+    /* Khung bao ngoài để căn giữa tag */
+    .section-header-center {
+        text-align: center; 
+        margin-bottom: 25px;
+        width: 100%;
     }
 
-    .section-card-outline {
-        display: inline-block;           /* Thu gọn vừa bằng kích thước chữ */
-        border: 2px solid #56F814 !important; /* Chỉ có viền xanh lá mạ */
-        background-color: rgba(86, 248, 20, 0.05) !important; /* Nền rất nhạt để hài hòa */
-        color: #56F814 !important;       /* Chữ cũng màu xanh lá mạ cho đồng bộ outline */
-        padding: 6px 20px;               /* Padding gọn gàng như nút */
-        border-radius: 30px;             /* Bo tròn mạnh giống nút chạy mô hình */
+    /* ĐÃ SỬA: Tag bo tròn đặc màu xanh lá tươi (giống màu nút/dấu tick success) */
+    .custom-green-tag {
+        display: inline-block;
+        background-color: #22C55E !important; /* Màu xanh lá tươi chuẩn st.success */
+        color: #FFFFFF !important;            /* Chữ trắng nét căng */
+        padding: 8px 24px;                    /* Độ rộng vừa vặn, gọn gàng */
+        border-radius: 30px;                  /* Bo tròn hoàn toàn giống nút chạy mô hình */
         font-weight: 600;
         font-size: 0.95rem;
-        opacity: 1 !important;
+        box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3); /* Đổ bóng nhẹ cho có chiều sâu */
+        border: none !important;              /* Không có viền ngoài */
     }
 
-    /* Các nhãn slider/input tự động theo theme */
+    /* Các nhãn slider/pills tự động theo Light/Dark theme */
     div.stSlider label, div.stPills label, div.stNumberInput label {
         font-weight: 500;
     }
@@ -164,19 +166,32 @@ with tab_predict:
     # Chia cụm input thành 2 cột chính cho gọn gàng
     col1, col2 = st.columns(2, gap="large")
 
-    with col1:
-        st.markdown("<div class='section-card'><b>📚 Khối Học Thuật & Trên Lớp</b></div>", unsafe_allow_html=True)
-        gio_hoc = st.slider("⏱️ Số giờ tự học ngoài giờ lên lớp (Giờ/Tuần):", 0, 50, 15, help="Tổng thời gian bạn tự học, làm bài tập ở nhà hoặc thư viện.")
-        attendance = st.slider("💯 Tỷ lệ chuyên cần trên lớp (%):", 0, 100, 90, help="Điểm danh đầy đủ hay cúp học nhiều?")
-        so_mon = st.number_input("📖 Số môn học đăng ký trong học kỳ này:", 1, 15, 5)
-        hoc_nhom_input = st.pills("👥 Hình thức học tập yêu thích của bạn:", ["Tự học", "Học nhóm"], default="Tự học")
+    # --- TRONG TAB_PREDICT ---
+with col1:
+    # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 1
+    st.markdown("""
+        <div class='section-header-center'>
+            <div class='custom-green-tag'>📚 Khối Học Thuật & Trên Lớp</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    gio_hoc = st.slider("⏱️ Số giờ tự học ngoài giờ lên lớp (Giờ/Tuần):", 0, 50, 15)
+    attendance = st.slider("💯 Tỷ lệ chuyên cần trên lớp (%):", 0, 100, 90)
+    so_mon = st.number_input("📖 Số môn học đăng ký trong học kỳ này:", 1, 15, 5)
+    hoc_nhom_input = st.pills("👥 Hình thức học tập yêu thích của bạn:", ["Tự học", "Học nhóm"], default="Tự học")
 
-    with col2:
-        st.markdown("<div class='section-card'><b>🍕 Khối Đời Sống & Sinh Hoạt</b></div>", unsafe_allow_html=True)
-        gio_ngu = st.slider("😴 Thời gian ngủ trung bình một đêm (Giờ):", 3.0, 12.0, 7.0, step=0.5)
-        social_media = st.slider("📱 Thời gian lướt MXH, xem phim, giải trí (Giờ/Ngày):", 0.0, 12.0, 3.0, step=0.5)
-        part_time_input = st.pills("💼 Bạn có đang đi làm thêm không?", ["Không", "Có"], default="Không")
-        clb_input = st.pills("⚽ Bạn có tham gia CLB / Đội nhóm nào không?", ["Không", "Có"], default="Không")
+with col2:
+    # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 2
+    st.markdown("""
+        <div class='section-header-center'>
+            <div class='custom-green-tag'>🍕 Khối Đời Sống & Sinh Hoạt</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    gio_ngu = st.slider("😴 Thời gian ngủ trung bình một đêm (Giờ):", 3.0, 12.0, 7.0, step=0.5)
+    social_media = st.slider("📱 Thời gian lướt MXH, xem phim, giải trí (Giờ/Ngày):", 0.0, 12.0, 3.0, step=0.5)
+    part_time_input = st.pills("💼 Bạn có đang đi làm thêm không?", ["Không", "Có"], default="Không")
+    clb_input = st.pills("⚽ Bạn có tham gia CLB / Đội nhóm nào không?", ["Không", "Có"], default="Không")
 
     # Mapping dữ liệu để đưa vào model
     part_time = 1 if part_time_input == "Có" else 0

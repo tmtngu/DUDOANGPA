@@ -14,47 +14,46 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS ĐỂ GIAO DIỆN ĐẸP HƠN & TƯƠNG THÍCH DARK MODE ---
+# --- TÙY CHỈNH CSS ĐỂ GIAO DIỆN ĐẸP HƠN & TƯƠNG THÍCH CẢ DARK VÀ LIGHT MODE ---
 st.markdown("""
     <style>
-    /* 1. Tiêu đề chính */
+    /* 1. Tiêu đề chính - Tự động tương phản màu chữ theo theme */
     .main-title {
         font-size: 2.6rem;
         font-weight: 700;
-        color: #FFFFFF !important;
         margin-bottom: 5px;
     }
     
     /* 2. Tiêu đề phụ */
     .sub-title {
         font-size: 1.1rem;
-        color: #D1D5DB !important;
         margin-bottom: 25px;
     }
     
-    /* 3. ĐÃ ĐỔI SANG XANH LÁ MẠ - ĐẶC MÀU, KHÔNG TRONG SUỐT */
+    /* 3. Cố định ô xanh lá mạ đặc - Chữ luôn là màu trắng để nổi bật trên nền xanh */
     .section-card {
-        background-color: #1E6B12 !important; /* Nền xanh lá mạ tông đậm để giữ độ tương phản chữ */
-        color: #FFFFFF !important;           /* Chữ trắng rõ ràng */
+        background-color: #1E6B12 !important; /* Nền xanh lá mạ tông đậm */
+        color: #FFFFFF !important;           /* Ép chữ trắng để không bị mờ khi sang Light mode */
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
-        border: 2px solid #56F814;           /* Viền màu xanh lá mạ tươi (Chính xác theo ảnh) */
-        opacity: 1 !important;               /* Đảm bảo đặc màu hoàn toàn, không trong suốt */
+        border: 2px solid #56F814;           /* Viền xanh mạ tươi */
+        opacity: 1 !important;
     }
     
-    /* 4. Định dạng text trong section card */
-    .section-card b {
+    /* Ép text bên trong card luôn trắng */
+    .section-card b, .section-card span {
         color: #FFFFFF !important;
         font-weight: 600;
     }
     
-    /* 5. Icon trong slider/pills cho nổi bật hơn */
-    div.stSlider label, div.stPills label {
-        color: #E5E7EB !important;
+    /* 4. SỬA LỖI TRÙNG MÀU: Xóa bỏ việc ép màu chữ xám cho nhãn slider/pills */
+    /* Để Streamlit tự quyết định màu chữ dựa theo giao diện đang bật */
+    div.stSlider label, div.stPills label, div.stSelectbox label, div.stNumberInput label {
+        font-weight: 500;
     }
     
-    /* 6. Margin cho pills/input cho rộng rãi */
+    /* 5. Tinh chỉnh khoảng cách */
     div[data-testid="stMarkdownContainer"] + div[data-testid="stHorizontalBlock"] {
         margin-top: -15px;
         margin-bottom: 15px;

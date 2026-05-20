@@ -21,27 +21,26 @@ st.markdown("""
     .main-title {
         font-size: 2.6rem;
         font-weight: 700;
-        color: #FFFFFF !important; /* Luôn là màu trắng */
+        color: #FFFFFF !important;
         margin-bottom: 5px;
     }
     
     /* 2. Tiêu đề phụ */
     .sub-title {
         font-size: 1.1rem;
-        color: #D1D5DB !important; /* Xám nhạt hơn một chút */
+        color: #D1D5DB !important;
         margin-bottom: 25px;
     }
     
-    /* 3. ĐÃ CHỈNH SỬA: Ô tiêu đề khối (Học thuật, Đời sống) */
-    /* Cố định màu để không bị Streamlit thay đổi khi chuyển Dark/Light */
+    /* 3. ĐÃ ĐỔI SANG MÀU XANH LÁ LUXURY CHO DARK MODE */
     .section-card {
-        background-color: #374151 !important; /* Màu xám đậm (dark gray) */
-        color: #FFFFFF !important;           /* Màu chữ trắng */
+        background-color: #065F46 !important; /* Màu xanh lá đậm chuẩn Emerald */
+        color: #FFFFFF !important;           /* Chữ trắng nổi bật */
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng nhẹ */
-        border: 1px solid #4B5563;           /* Viền mờ */
+        box-shadow: 0 4px 10px rgba(6, 95, 70, 0.4); /* Đổ bóng hiệu ứng neon xanh mờ */
+        border: 1px solid #10B981;           /* Viền xanh lá sáng tạo điểm nhấn */
     }
     
     /* 4. Định dạng text trong section card */

@@ -14,49 +14,41 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS ĐỂ GIAO DIỆN ĐẸP HƠN & TƯƠNG THÍCH CẢ DARK VÀ LIGHT MODE ---
+# --- TÙY CHỈNH CSS: TIÊU ĐỀ DẠNG NÚT OUTLINE & CÂN GIỮA ---
 st.markdown("""
     <style>
-    /* 1. Tiêu đề chính - Tự động tương phản màu chữ theo theme */
     .main-title {
         font-size: 2.6rem;
         font-weight: 700;
         margin-bottom: 5px;
     }
     
-    /* 2. Tiêu đề phụ */
     .sub-title {
         font-size: 1.1rem;
         margin-bottom: 25px;
     }
-    
-    /* 3. Cố định ô xanh lá mạ đặc - Chữ luôn là màu trắng để nổi bật trên nền xanh */
-    .section-card {
-        background-color: #1E6B12 !important; /* Nền xanh lá mạ tông đậm */
-        color: #FFFFFF !important;           /* Ép chữ trắng để không bị mờ khi sang Light mode */
-        padding: 15px;
-        border-radius: 10px;
+
+    /* ĐÃ SỬA: Tiêu đề khối dạng nút Outline xanh lá mạ */
+    .section-header-container {
+        text-align: center; /* Căn giữa toàn bộ cụm tiêu đề trong cột */
         margin-bottom: 20px;
-        border: 2px solid #56F814;           /* Viền xanh mạ tươi */
+    }
+
+    .section-card-outline {
+        display: inline-block;           /* Thu gọn vừa bằng kích thước chữ */
+        border: 2px solid #56F814 !important; /* Chỉ có viền xanh lá mạ */
+        background-color: rgba(86, 248, 20, 0.05) !important; /* Nền rất nhạt để hài hòa */
+        color: #56F814 !important;       /* Chữ cũng màu xanh lá mạ cho đồng bộ outline */
+        padding: 6px 20px;               /* Padding gọn gàng như nút */
+        border-radius: 30px;             /* Bo tròn mạnh giống nút chạy mô hình */
+        font-weight: 600;
+        font-size: 0.95rem;
         opacity: 1 !important;
     }
-    
-    /* Ép text bên trong card luôn trắng */
-    .section-card b, .section-card span {
-        color: #FFFFFF !important;
-        font-weight: 600;
-    }
-    
-    /* 4. SỬA LỖI TRÙNG MÀU: Xóa bỏ việc ép màu chữ xám cho nhãn slider/pills */
-    /* Để Streamlit tự quyết định màu chữ dựa theo giao diện đang bật */
-    div.stSlider label, div.stPills label, div.stSelectbox label, div.stNumberInput label {
+
+    /* Các nhãn slider/input tự động theo theme */
+    div.stSlider label, div.stPills label, div.stNumberInput label {
         font-weight: 500;
-    }
-    
-    /* 5. Tinh chỉnh khoảng cách */
-    div[data-testid="stMarkdownContainer"] + div[data-testid="stHorizontalBlock"] {
-        margin-top: -15px;
-        margin-bottom: 15px;
     }
     </style>
 """, unsafe_allow_html=True)

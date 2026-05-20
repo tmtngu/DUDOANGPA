@@ -32,15 +32,15 @@ st.markdown("""
         margin-bottom: 25px;
     }
     
-    /* 3. ĐÃ ĐỔI SANG MÀU XANH LÁ LUXURY CHO DARK MODE */
+    /* 3. ĐÃ ĐỔI SANG XANH LÁ MẠ - ĐẶC MÀU, KHÔNG TRONG SUỐT */
     .section-card {
-        background-color: #065F46 !important; /* Màu xanh lá đậm chuẩn Emerald */
-        color: #FFFFFF !important;           /* Chữ trắng nổi bật */
+        background-color: #1E6B12 !important; /* Nền xanh lá mạ tông đậm để giữ độ tương phản chữ */
+        color: #FFFFFF !important;           /* Chữ trắng rõ ràng */
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(6, 95, 70, 0.4); /* Đổ bóng hiệu ứng neon xanh mờ */
-        border: 1px solid #10B981;           /* Viền xanh lá sáng tạo điểm nhấn */
+        border: 2px solid #56F814;           /* Viền màu xanh lá mạ tươi (Chính xác theo ảnh) */
+        opacity: 1 !important;               /* Đảm bảo đặc màu hoàn toàn, không trong suốt */
     }
     
     /* 4. Định dạng text trong section card */

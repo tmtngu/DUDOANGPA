@@ -14,24 +14,50 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS ĐỂ GIAO DIỆN ĐẸP HƠN ---
+# --- TÙY CHỈNH CSS ĐỂ GIAO DIỆN ĐẸP HƠN & TƯƠNG THÍCH DARK MODE ---
 st.markdown("""
     <style>
+    /* 1. Tiêu đề chính */
     .main-title {
         font-size: 2.6rem;
         font-weight: 700;
-        color: #1E3A8A;
+        color: #FFFFFF !important; /* Luôn là màu trắng */
         margin-bottom: 5px;
     }
+    
+    /* 2. Tiêu đề phụ */
     .sub-title {
         font-size: 1.1rem;
-        color: #4B5563;
+        color: #D1D5DB !important; /* Xám nhạt hơn một chút */
         margin-bottom: 25px;
     }
+    
+    /* 3. ĐÃ CHỈNH SỬA: Ô tiêu đề khối (Học thuật, Đời sống) */
+    /* Cố định màu để không bị Streamlit thay đổi khi chuyển Dark/Light */
     .section-card {
-        background-color: #F3F4F6;
+        background-color: #374151 !important; /* Màu xám đậm (dark gray) */
+        color: #FFFFFF !important;           /* Màu chữ trắng */
         padding: 15px;
         border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); /* Thêm đổ bóng nhẹ */
+        border: 1px solid #4B5563;           /* Viền mờ */
+    }
+    
+    /* 4. Định dạng text trong section card */
+    .section-card b {
+        color: #FFFFFF !important;
+        font-weight: 600;
+    }
+    
+    /* 5. Icon trong slider/pills cho nổi bật hơn */
+    div.stSlider label, div.stPills label {
+        color: #E5E7EB !important;
+    }
+    
+    /* 6. Margin cho pills/input cho rộng rãi */
+    div[data-testid="stMarkdownContainer"] + div[data-testid="stHorizontalBlock"] {
+        margin-top: -15px;
         margin-bottom: 15px;
     }
     </style>

@@ -212,7 +212,11 @@ with tab_predict:
     st.markdown("<br>", unsafe_allow_html=True)
 
     # NÚT BẤM CHẠY MÔ HÌNH TRẢI ĐẦY 100% CHIỀU NGANG MÀN HÌNH
-    chay_mo_hinh = st.button("🚀 CHẠY MÔ HÌNH & CHUẨN ĐOÁN KẾT QUẢ", type="primary")
+    btn_col1, btn_col2, btn_col3 = st.columns([1, 2, 1])
+
+    with btn_col2:
+        # Bật use_container_width=True để nút giãn đầy cái cột ở giữa này
+        chay_mo_hinh = st.button("🚀 CHẠY MÔ HÌNH & CHUẨN ĐOÁN KẾT QUẢ", type="primary", use_container_width=True)
 
     if chay_mo_hinh:
         input_array = np.array([[gio_hoc, so_mon, part_time, gio_ngu, clb, attendance, hoc_nhom, social_media]])

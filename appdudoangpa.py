@@ -48,14 +48,16 @@ st.markdown("""
         border: none !important;              /* Không có viền ngoài */
     }
 
-    /* ÉP NÚT BẤM PRIMARY ĐẦY 100% CHIỀU NGANG VÀ BO TRÒN */
+   /* ÉP NÚT BẤM PRIMARY ĐẦY 100% CHIỀU NGANG VÀ BO TRÒN (ĐÃ SỬA LỖI LỆCH TRÁI) */
+    div.stButton {
+        width: 100% !important;
+    }
     div.stButton > button[kind="primary"] {
         width: 100% !important;
-        display: block !important;
         padding: 12px 0px !important;
         font-size: 1.05rem !important;
         font-weight: 600 !important;
-        border-radius: 30px !important;       /* Bo tròn góc đồng bộ với tag */
+        border-radius: 30px !important; /* Bo tròn mượt mà */
         border: none !important;
     }
 

@@ -14,7 +14,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- TÙY CHỈNH CSS: TIÊU ĐỀ DẠNG TAG BO TRÒN MÀU XANH LÁ TƯƠI CÂN GIỮA ---
+# --- TÙY CHỈNH CSS: TAG XANH LÁ MẠ VÀ NÚT CHẠY MÔ HÌNH TRẢI ĐẦY ---
 st.markdown("""
     <style>
     .main-title {
@@ -35,7 +35,7 @@ st.markdown("""
         width: 100%;
     }
 
-    /* ĐÃ SỬA: Tag bo tròn đặc màu xanh lá tươi (giống màu nút/dấu tick success) */
+    /* Tag bo tròn đặc màu xanh lá tươi (giống màu dấu tick success) */
     .custom-green-tag {
         display: inline-block;
         background-color: #22C55E !important; /* Màu xanh lá tươi chuẩn st.success */
@@ -46,6 +46,17 @@ st.markdown("""
         font-size: 0.95rem;
         box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3); /* Đổ bóng nhẹ cho có chiều sâu */
         border: none !important;              /* Không có viền ngoài */
+    }
+
+    /* ÉP NÚT BẤM PRIMARY ĐẦY 100% CHIỀU NGANG VÀ BO TRÒN */
+    div.stButton > button[kind="primary"] {
+        width: 100% !important;
+        display: block !important;
+        padding: 12px 0px !important;
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        border-radius: 30px !important;       /* Bo tròn góc đồng bộ với tag */
+        border: none !important;
     }
 
     /* Các nhãn slider/pills tự động theo Light/Dark theme */
@@ -140,7 +151,6 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 📊 Thông tin dữ liệu")
     
-    # Sử dụng card nhỏ để hiển thị thông tin sạch sẽ hơn
     st.info(f"📁 **Nguồn:**\n{source_type}")
     st.success(f"🤖 **Trạng thái:**\nĐã huấn luyện trên **{data_size}** mẫu khảo sát.")
     
@@ -166,32 +176,31 @@ with tab_predict:
     # Chia cụm input thành 2 cột chính cho gọn gàng
     col1, col2 = st.columns(2, gap="large")
 
-    # --- TRONG TAB_PREDICT ---
-with col1:
-    # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 1
-    st.markdown("""
-        <div class='section-header-center'>
-            <div class='custom-green-tag'>📚 Khối Học Thuật & Trên Lớp</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    gio_hoc = st.slider("⏱️ Số giờ tự học ngoài giờ lên lớp (Giờ/Tuần):", 0, 50, 15)
-    attendance = st.slider("💯 Tỷ lệ chuyên cần trên lớp (%):", 0, 100, 90)
-    so_mon = st.number_input("📖 Số môn học đăng ký trong học kỳ này:", 1, 15, 5)
-    hoc_nhom_input = st.pills("👥 Hình thức học tập yêu thích của bạn:", ["Tự học", "Học nhóm"], default="Tự học")
+    with col1:
+        # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 1
+        st.markdown("""
+            <div class='section-header-center'>
+                <div class='custom-green-tag'>📚 Khối Học Thuật & Trên Lớp</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        gio_hoc = st.slider("⏱️ Số giờ tự học ngoài giờ lên lớp (Giờ/Tuần):", 0, 50, 15)
+        attendance = st.slider("💯 Tỷ lệ chuyên cần trên lớp (%):", 0, 100, 90)
+        so_mon = st.number_input("📖 Số môn học đăng ký trong học kỳ này:", 1, 15, 5)
+        hoc_nhom_input = st.pills("👥 Hình thức học tập yêu thích của bạn:", ["Tự học", "Học nhóm"], default="Tự học")
 
-with col2:
-    # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 2
-    st.markdown("""
-        <div class='section-header-center'>
-            <div class='custom-green-tag'>🍕 Khối Đời Sống & Sinh Hoạt</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    gio_ngu = st.slider("😴 Thời gian ngủ trung bình một đêm (Giờ):", 3.0, 12.0, 7.0, step=0.5)
-    social_media = st.slider("📱 Thời gian lướt MXH, xem phim, giải trí (Giờ/Ngày):", 0.0, 12.0, 3.0, step=0.5)
-    part_time_input = st.pills("💼 Bạn có đang đi làm thêm không?", ["Không", "Có"], default="Không")
-    clb_input = st.pills("⚽ Bạn có tham gia CLB / Đội nhóm nào không?", ["Không", "Có"], default="Không")
+    with col2:
+        # Tag màu xanh lá tươi bo tròn mọc ở giữa cột 2
+        st.markdown("""
+            <div class='section-header-center'>
+                <div class='custom-green-tag'>🍕 Khối Đời Sống & Sinh Hoạt</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        gio_ngu = st.slider("😴 Thời gian ngủ trung bình một đêm (Giờ):", 3.0, 12.0, 7.0, step=0.5)
+        social_media = st.slider("📱 Thời gian lướt MXH, xem phim, giải trí (Giờ/Ngày):", 0.0, 12.0, 3.0, step=0.5)
+        part_time_input = st.pills("💼 Bạn có đang đi làm thêm không?", ["Không", "Có"], default="Không")
+        clb_input = st.pills("⚽ Bạn có tham gia CLB / Đội nhóm nào không?", ["Không", "Có"], default="Không")
 
     # Mapping dữ liệu để đưa vào model
     part_time = 1 if part_time_input == "Có" else 0
@@ -200,8 +209,10 @@ with col2:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Nút bấm tính toán thiết kế to, rõ ràng
-    if st.button("🚀 CHẠY MÔ HÌNH & CHUẨN ĐOÁN KẾT QUẢ", type="primary", use_container_width=True):
+    # NÚT BẤM CHẠY MÔ HÌNH TRẢI ĐẦY 100% CHIỀU NGANG MÀN HÌNH
+    chay_mo_hinh = st.button("🚀 CHẠY MÔ HÌNH & CHUẨN ĐOÁN KẾT QUẢ", type="primary")
+
+    if chay_mo_hinh:
         input_array = np.array([[gio_hoc, so_mon, part_time, gio_ngu, clb, attendance, hoc_nhom, social_media]])
         predicted_gpa = ai_model.predict(input_array)[0]
 
@@ -222,7 +233,7 @@ with col2:
             elif predicted_gpa >= 2.5:
                 st.warning("⚠️ **Xếp loại Trung bình - Khá.** Mức điểm này nằm ở vùng an toàn nhưng rất dễ bị tụt dốc. Hãy để ý cắt giảm bớt thời gian lướt TikTok/Facebook và tập trung hơn nhé.")
             else:
-                st.error("🚨 **Báo động đỏ!** Phong cách học tập này cực kỳ nguy hiểm, nguy cơ rớt môn hoặc cảnh cáo học vụ rất cao. Cần siết chặt lại kỷ luật bản thân, đi học đầy đủ và tăng giờ tự học ngay!")
+                st.error("🚨 **Báo động đỏ!** Phong cách học tập này cực kỳ nguy hiểm, nguy cơ rớt môn hoặc cảnh cáo học vụ rất cao. Cần siết chặt lại kỷ luật bản thân, đi học đầy đủ and tăng giờ tự học ngay!")
 
 # --- TAB 2: BIỂU ĐỒ TRỌNG SỐ ---
 with tab_analytics:
@@ -263,12 +274,9 @@ with tab_research:
     st.write("Nếu ông bạn đang dùng ứng dụng này để làm phôi đề tài nghiên cứu, đây là các đoạn văn mẫu học thuật hỗ trợ viết phần Thảo luận (Discussion) & Phương pháp (Methodology):")
 
     st.markdown("""
-    > 📌 **Về Thuật Toán (Algorithm Justification):**  
-    *Trong nghiên cứu Khai phá Dữ liệu Giáo dục (Educational Data Mining), mô hình Random Forest Regressor được lựa chọn nhờ khả năng tối ưu trong việc xử lý các mối quan hệ phi tuyến tính phức tạp (ví dụ: tác động của giấc ngủ tuân theo hàm phi tuyến – ngủ quá ít hay quá nhiều đều kéo giảm kết quả học tập). Thuật toán này hạn chế tối đa hiện tượng quá khớp (overfitting) thông qua cơ chế phân tách ngẫu nhiên các cây quyết định.*
+    > 📌 **Về Thuật Toán (Algorithm Justification):** *Trong nghiên cứu Khai phá Dữ liệu Giáo dục (Educational Data Mining), mô hình Random Forest Regressor được lựa chọn nhờ khả năng tối ưu trong việc xử lý các mối quan hệ phi tuyến tính phức tạp (ví dụ: tác động của giấc ngủ tuân theo hàm phi tuyến – ngủ quá ít hay quá nhiều đều kéo giảm kết quả học tập). Thuật toán này hạn chế tối đa hiện tượng quá khớp (overfitting) thông qua cơ chế phân tách ngẫu nhiên các cây quyết định.*
 
-    > 📌 **Hạn Chế Về Sai Số Hồi Tưởng (Limitations & Recall Bias):**  
-    *Dữ liệu thu thập thông qua khảo sát dạng tự khai báo (Self-reporting) khó tránh khỏi Định kiến mong muốn xã hội (Social Desirability Bias). Sinh viên có xu hướng khai tăng số giờ tự học thực tế và ước lượng thấp hơn thời gian lãng phí cho các nền tảng mạng xã hội do thiếu công cụ theo dõi thời gian thực (Screen-time logs).*
+    > 📌 **Hạn Chế Về Sai Số Hồi Tưởng (Limitations & Recall Bias):** *Dữ liệu thu thập thông qua khảo sát dạng tự khai báo (Self-reporting) khó tránh khỏi Định kiến mong muốn xã hội (Social Desirability Bias). Sinh viên có xu hướng khai tăng số giờ tự học thực tế và ước lượng thấp hơn thời gian lãng phí cho các nền tảng mạng xã hội do thiếu công cụ theo dõi thời gian thực (Screen-time logs).*
 
-    > 📌 **Hàm Ý Quản Trị & Khuyến Nghị (Practical Implications):**  
-    *Dựa vào phân tích Trọng số tác động (Feature Importance), hai yếu tố **Tỷ lệ chuyên cần** và **Số giờ tự học** chiếm tỷ trọng chi phối cao nhất. Do đó, thay vì áp đặt các biện pháp cực đoan như cấm đoán sinh viên làm thêm (Part-time job), các nhà quản lý giáo dục nên tập trung vào việc số hóa quy trình điểm danh và tối ưu không gian tự học tại khuôn viên trường học.*
+    > 📌 **Hàm Ý Quản Trị & Khuyến Nghị (Practical Implications):** *Dựa vào phân tích Trọng số tác động (Feature Importance), hai yếu tố **Tỷ lệ chuyên cần** và **Số giờ tự học** chiếm tỷ trọng chi phối cao nhất. Do đó, thay vì áp đặt các biện pháp cực đoan như cấm đoán sinh viên làm thêm (Part-time job), các nhà quản lý giáo dục nên tập trung vào việc số hóa quy trình điểm danh và tối ưu không gian tự học tại khuôn viên trường học.*
     """)
